@@ -29,7 +29,129 @@
         <hr>
     </div>
     <div class="post-content">
-        
+        <h2 id="Hexo简介"><a href="#Hexo简介" class="headerlink" title="Hexo简介"></a>Hexo简介</h2><p>hexo是基于Node.js的静态磨课框架，依赖少易于安装使用，可以方便的生成静态网页</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
+<li><p>安装git</p>
+</li>
+<li><p>安装node.js</p>
+<p>node.js版本限制：</p>
+<table>
+<thead>
+<tr>
+<th align="left">Hexo 版本</th>
+<th align="left">最低兼容 Node.js 版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">5.0+</td>
+<td align="left">10.13.0</td>
+</tr>
+<tr>
+<td align="left">4.1 - 4.2</td>
+<td align="left">8.10</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>安装Hexo</p>
+<pre><code>npm install -g hexo-cli
+</code></pre>
+<p>安装以后将 Hexo 所在的目录下的  node_modules  添加到环境变量之中即可直接使用  hexo <command> :</p>
+<pre><code>echo &#39;PATH=&quot;$PATH:./node_modules/.bin&quot;&#39; &gt;&gt; ~/.profile
+</code></pre>
+</li>
+</ul>
+<h2 id="建站"><a href="#建站" class="headerlink" title="建站"></a>建站</h2><ul>
+<li><p>初始化hexo</p>
+<pre><code>hexo init myblog
+</code></pre>
+<p>指定的文件夹目录上有：</p>
+<pre><code>node_modules: 依赖包
+
+public：存放生成的页面
+
+scaffolds：生成文章的一些模板
+
+source：用来存放你的文章
+
+themes：主题
+
+** _config.yml: 博客的配置文件**
+</code></pre>
+</li>
+<li><p>hexo g      #生成静态文件</p>
+</li>
+<li><p>hexo s      #运行本地服务</p>
+</li>
+</ul>
+<h2 id="将hexo部署到github"><a href="#将hexo部署到github" class="headerlink" title="将hexo部署到github"></a>将hexo部署到github</h2><ul>
+<li><p>创建一个和你用户名相同的仓库，后面加.github.io</p>
+</li>
+<li><p>打开站点配置文件 <code>_config.yml</code></p>
+<pre><code>deploy:
+  type: git
+  repo: https://github.com/YourgithubName/YourgithubName.github.io.git
+  branch: master
+</code></pre>
+</li>
+<li><p>安装deploy-git ，也就是部署的命令,这样才能用命令部署到GitHub</p>
+<pre><code>npm install hexo-deployer-git --save
+</code></pre>
+</li>
+</ul>
+<h2 id="运行测试"><a href="#运行测试" class="headerlink" title="运行测试"></a>运行测试</h2><pre><code>hexo clean  #用来清除缓存文件
+hexo g      #生成静态文件
+hexo s      #运行本地服务
+hexo d      #
+</code></pre>
+<h2 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h2><p>只要在 <code>themes</code> 文件夹内，新增一个任意名称的文件夹，并修改 <code>_config.yml</code> 内的 <code>theme</code> 设定，即可切换主题</p>
+<p><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/themes.html">https://hexo.io/zh-cn/docs/themes.html</a></p>
+<h2 id="添加live2d看板动画"><a href="#添加live2d看板动画" class="headerlink" title="添加live2d看板动画"></a>添加live2d看板动画</h2><ul>
+<li><p>官网地址配置：<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/hexo-helper-live2d">https://www.npmjs.com/package/hexo-helper-live2d</a></p>
+</li>
+<li><p>首先检查博客主目录下面的 <code>package.json</code>里是否有<br><code>&quot;hexo-helper-live2d&quot;: &quot;^3.0.3&quot;,</code>依赖，有的话可以先卸载</p>
+<pre><code>使用命令：npm uninstall hexo-helper-live2d
+之后再安装：npm install --save hexo-helper-live2d
+</code></pre>
+</li>
+<li><p>此时再去 <code>node_moduels</code>目录下，可以看到有如下文件夹，这些都是动画主配置</p>
+</li>
+<li><p>下载各种动画model：<br>地址：<a target="_blank" rel="noopener" href="https://github.com/xiazeyu/live2d-widget-models.git">https://github.com/xiazeyu/live2d-widget-models.git</a></p>
+</li>
+<li><p>下载好之后将packages里的所有动画模板拷贝到博客的node_modules目录里</p>
+</li>
+<li><p>配置博客站点配置文件，_config.yml</p>
+</li>
+</ul>
+<pre><code>live2d:
+  enable: true
+  pluginModelPath: assets/
+  model:
+    use: live2d-widget-model-epsilon2_1  #模板目录，在node_modules里
+  display:
+    position: right
+    width: 150 
+    height: 300
+  mobile:
+    show: false  #是否在手机进行显示
+</code></pre>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ul>
+<li><p>hexo g报错,line.mathALL is not funciton</p>
+<pre><code>是node版本问题,针对于低版本node问题,node12.0.0以上就没有这个问题,config.xml中的 highlight-&gt;enable的值从true更改为false，这样可以避免异常。
+</code></pre>
+</li>
+<li><p>hexo d 报错，fatal: unable to access ‘<a target="_blank" rel="noopener" href="https://github.com/.git/%E2%80%98">https://github.com/.git/‘</a>: Failed to conne拒绝连接</p>
+<pre><code>可能gitbub之前设置过代理，只需分别执行如下代码即可：
+ git config --global --unset http.proxy
+ git config --global --unset https.proxy
+如果还没有解决，可以尝试如下解决方式：
+git config --global url.git://github.com/.insteadOf https://github.com/
+</code></pre>
+</li>
+<li><p>github获取token</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_46897467/article/details/113106403">https://blog.csdn.net/weixin_46897467/article/details/113106403</a></p>
+</li>
+</ul>
+
     </div>
 
     
