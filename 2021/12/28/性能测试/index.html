@@ -36,21 +36,156 @@
 <li><p>广义</p>
 <p>是一种测量和评估软件性能指标的活动，在某一时刻通过基准测试建立一个已知的性能水平</p>
 <pre><code>例如商城用户使用环境为V1.0,新开发版本V1.1：
-应先在V1.0的版本上进行性能测试收集所有的性能指标，再在V1.1版本上应用于V1.0基准测试时相同的环境配置再收集性能指标进行比较
+应先在V1.0的版本上进行性能测试收集所有的性能指标，
+再在V1.1版本上应用于V1.0基准测试时相同的环境配置再收集性能指标进行比较
 </code></pre>
 </li>
 </ul>
 <h2 id="负载测试"><a href="#负载测试" class="headerlink" title="负载测试"></a>负载测试</h2><p>负载：指向服务器发送的请求数量</p>
 <p>通过逐步增加负载，测试系统性能的变化，并最终确定在满足系统的性能指标情况下系统能够承受的最大负载量的测试</p>
 <h2 id="稳定性测试"><a href="#稳定性测试" class="headerlink" title="稳定性测试"></a>稳定性测试</h2><p>在服务器稳定运行（业务正常的负载量）的情况下进行长时间的测试，保证服务器能够正常运行</p>
-<h2 id="负载测试曲线图"><a href="#负载测试曲线图" class="headerlink" title="负载测试曲线图"></a>负载测试曲线图</h2><h2 id="并发测试"><a href="#并发测试" class="headerlink" title="并发测试"></a>并发测试</h2><p>在极短时间内，发送多个请求，来验证服务器对并发的处理能力</p>
+<h2 id="负载测试曲线图"><a href="#负载测试曲线图" class="headerlink" title="负载测试曲线图"></a>负载测试曲线图</h2><h2 id="并发测试"><a href="#并发测试" class="headerlink" title="并发测试"></a>并发测试</h2><p>在极短时间内，发送多个请求，来验证服务器对并发的处理能力。</p>
+<p>如果性能的目标是验证当前系统是否支持现有用户的访问，最好的办法是弄清楚会有多少用户会在同一时间段内访问被测系统，如果使用性能测试工具模拟出与系统访问数相同的用户，并模拟用户行为，那得到的测试结果就能够真实反映实际用户访问时的系统性能表现</p>
+<h2 id="大数据量测试"><a href="#大数据量测试" class="headerlink" title="大数据量测试"></a>大数据量测试</h2><p>简单理解：一个接口返回的数据比较多（假设：不做分页，把所有数据同事返回）</p>
+<p>结论：返回大数据量的接口响应时间会变长，需要考虑：网络传输数据、服务器查询这些数据、服务器处理这些数据等等分别需要多少时间</p>
 <h2 id="压力测试"><a href="#压力测试" class="headerlink" title="压力测试"></a>压力测试</h2><p>在强负载（大数据量、大量并发用户等）下的测试</p>
 <ul>
 <li>高负载下的长时间稳定性压力测试</li>
 <li>极限负载情况下导致系统奔溃的破坏性压力测试</li>
 </ul>
-<h2 id="容量测试"><a href="#容量测试" class="headerlink" title="容量测试"></a>容量测试</h2><p>关注软件的极限压力下的各个极限参数值，例如：最大TOS、最大并发数、最大连接数</p>
-<h2 id="ramp-up"><a href="#ramp-up" class="headerlink" title="ramp-up"></a>ramp-up</h2><p>z在做并发时线程数一定要满足</p>
+<h2 id="容量测试"><a href="#容量测试" class="headerlink" title="容量测试"></a>容量测试</h2><p>关注软件的极限压力下的各个极限参数值，例如：最大TPS、最大并发数、最大连接数</p>
+<h2 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a>性能指标</h2><ul>
+<li><p>响应时间：用户从客户端发起一个请求开始，到客户端收到服务器返回的结构，整个过程所耗费的时间</p>
+</li>
+<li><p>并发数：并发测试用户数</p>
+</li>
+<li><p>吞吐量：单位时间内处理的客户端请求数量，直接提现软件系统的性能承载能力</p>
+</li>
+<li><p>点击数：打开页面加载的请求数</p>
+</li>
+<li><p>错误率</p>
+</li>
+<li><p>资源利用率</p>
+<p>CPU:所有工作都要依赖CPU完成</p>
+<p>内存：程序运行时所消耗的空间</p>
+<p>磁盘：存储本地数据文件</p>
+<p>网络：影响数据在网络中的传输速度</p>
+</li>
+<li><p>PV和UV：PV页面访问量，即日活量。UV访问网站的用户数量</p>
+</li>
+</ul>
+<h2 id="分析响应时间"><a href="#分析响应时间" class="headerlink" title="分析响应时间"></a>分析响应时间</h2><p>时间拆分为：</p>
+<ul>
+<li>浏览器加载时间</li>
+<li>请求发起到服务端状态码返回：TCP连接+服务端开始处理请求到状态码返回</li>
+<li>浏览器渲染时间</li>
+</ul>
+<h2 id="Ramp-up和Delay-Theread-creation"><a href="#Ramp-up和Delay-Theread-creation" class="headerlink" title="Ramp-up和Delay Theread creation"></a>Ramp-up和Delay Theread creation</h2><ul>
+<li>在做并发时线程数一定要满足，因为线程数是用来模拟用户的。ramp-up为线程启动的总时间，在1s内要把线程100个全部启动，需要添加用户集合点，因为线程是按顺序去启动的，在1s内启动100个线程也是按时间去取的。意味着线程启动了，请求就会发出去，不加集合点的话并发其实是离散的，每一个线程启动之后请求就发送出去了，而不能保证所有的请求在同一时间发起。</li>
+<li>如果线程数需要为1000，线程启动过多，本机的资源（内存、CPU）可能不足以支持这么多线程同时启动。因此，要启动线程阶梯，Ramp-up=10相当于阶梯启动线程，10s内逐步把1000个线程启动，同时还要勾选Delay Theread creation：延迟分配线程内存，不勾选表示在一瞬间就把1000个线程需要的内存全部分配出去，勾选表示线程启动多少内存就分配多少内存</li>
+<li>Ramp-up指Jmeter用于执行全部请求的时间，如果设置了100个线程，并且ramp-up是2秒，那么jmeter将在2秒钟之内启动100个线程。如果循环次数是2，那么jmeter将在2秒钟内发送200个请求。如果循环次数设置为永远，那么jmeter将以最大可能去发送请求</li>
+<li>用表格查看结果可看到请求发起时间，若1000并发比100并发时吞吐量下降，表示服务端处理能力在下降</li>
+</ul>
+<h2 id="用表格查看结果"><a href="#用表格查看结果" class="headerlink" title="用表格查看结果"></a>用表格查看结果</h2><p>可以看出某个接口所有的用户的请求时间，所有用户的请求时间基本误差在1S内，如果用户数越大，差异应该越大，这个跟负载机的性能有关。监听器–&gt;用表格查看结果（View Results in Table）</p>
+<p>latency：总延迟，从请求发出去到服务端返回一个状态码</p>
+<p>connect Time(ms)：网络连接（TCP连接）从请求发出去到和服务端连接成功</p>
+<p>假设latency特别高，高到了10秒钟，这时若connect Time（ms)时间有9秒，这表示总的延迟时间有90%都在网络处理上面，服务端的处理时间只有1秒，此时瓶颈在网络层上</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><ul>
+<li><h4 id="需求点：想实现1000TPS，如何找到TPS拐点，能否发到1000TPS"><a href="#需求点：想实现1000TPS，如何找到TPS拐点，能否发到1000TPS" class="headerlink" title="需求点：想实现1000TPS，如何找到TPS拐点，能否发到1000TPS"></a>需求点：想实现1000TPS，如何找到TPS拐点，能否发到1000TPS</h4><pre><code>做单接口的基准：
+1.设置线程数=1，Ramp-up=1，循环次数=永远
+2.聚合报告观察吞吐量，大约跑1分钟，找到平均的吞吐量，
+    分析需要多少个线程才能达到1000TPS
+3.假设聚合报告结果为：
+    单线程吞吐量平均在170左右，预期1000TPS，则需要6个线程才能满足1000TPS
+</code></pre>
+<pre><code>法一：
+1.设置6个线程之后观察TPS曲线图
+    jp@Transactions Per Scond可看出波动非常的大，无法看出在什么地方有拐点
+</code></pre>
+<pre><code>法二：用每秒请求次数（吞吐量定时器）jp@Transactions Per Second
+1.花20S每秒请求数从1增加到200，如下图所示：
+2.观察TPS曲线图
+观察克制在530TPS后开始出现衰减（6个线程）
+单线程TPS：530/6=88/s之后开始衰减，因此达不到预期
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Start RPS</th>
+<th>End RPS</th>
+<th>Dutation Sec</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>200</td>
+<td>20</td>
+</tr>
+<tr>
+<td>200</td>
+<td>400</td>
+<td>20</td>
+</tr>
+<tr>
+<td>400</td>
+<td>600</td>
+<td>20</td>
+</tr>
+<tr>
+<td>600</td>
+<td>1000</td>
+<td>30</td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="负载场景设计"><a href="#负载场景设计" class="headerlink" title="负载场景设计"></a>负载场景设计</h3><pre><code>jp@gc-composite Grape(聚合型监听器)用于观察TPS和响应时间，找到瓶颈点。
+1）持续不断增加压力，找到性能瓶颈点：TPS下降、资源饱和
+2）负载不断增加，tps应持续增加。如果出现下降的趋势，表明tps拐点已经到了
+3）如果tps在下降而CPU还很低，说明压力在网络层面就已经被卡住了，还没有到服务器层面
+法一：使用阶梯加压线程组
+jp@gc-stepping Thread Group(deprecuted)
+This group will start:300   #并发用户数
+Next add：30
+threads every:2   #每2秒增加30，这30个线程在2秒内启动
+using ramp-up:2   #每隔2秒启动30个线程，这30个线程在2秒启动完，也就是花4秒
+then hold load for:30 seconds  #加到300线程后再持续运行30s
+threads every:2 seconds   #每隔2秒释放30个线程
+法二：使用bzm - Concurrency Thread Group
+Target Concurrency:300  #目标并发(线程数)
+Ramp Up Time(sec):60   #会花60s的时间分10个阶梯，每个阶段是6s，将线程加到300,
+Ramp up steps count:10  
+Hold Target Rate Time(sec):30  #加到300之后持续30s
+Thread Lterations Limit:  #迭代次数，不设的话默认用最大的迭代次数跑
+</code></pre>
+<pre><code>如果线程不太多的话，对本机没有太多的压力，选stepping Thread Group和
+bzm - Concurrency Thread Group区别不大，如果线程数较多（1000-2000）则需要考虑对本机
+资源的消耗
+</code></pre>
+</li>
+<li><h3 id="找拐点"><a href="#找拐点" class="headerlink" title="找拐点"></a>找拐点</h3><pre><code>1）理论上来说加线程的目的就是为了加整体的业务的吞吐量，但是实际情况是有可能线程加的越多吞吐
+量会低，因为中间可能会有各种环节的堵塞，包括链接队列，导致性能会出现瓶颈，这时候再加线程吞吐
+量也不会上升。如果负载在上升，但整体的吞吐量在下降，说明性能开始出现衰减。
+2）性能分析的通用方法之一是拐点分析。拐点分析法是一种利用性能计数器曲线上的拐点进行性能分析
+的方法，其基本思想是基于以下事实：性能产生瓶颈是由于某个资源的使用达到了极限。此时的表现是随
+着压力增大系统性能表现急剧下降。因此，只要关注性能表现上的拐点，获得拐点附近的资源使用情况，
+就能够定位出系统的性能瓶颈。拐点分析法在确定引起系统瓶颈的系统资源方面能发挥一定作用，但由
+于其只能定位到资源上的制约，而不能直接定位到引起制约的原因
+</code></pre>
+</li>
+<li><h3 id="并发测试场景设计"><a href="#并发测试场景设计" class="headerlink" title="并发测试场景设计"></a>并发测试场景设计</h3><pre><code>1）先使用100线程，ramp-up:1
+添加定时器，查看结果树勾选“仅查看错误日志”，查看95%的响应时间，执行三次，取折中值
+2）使用300线程，执行三次去折中值，若每次响应时间差太多，可能是网络抖动太大
+</code></pre>
+</li>
+<li><h3 id="在线用户数、并发用户数、注册用户数"><a href="#在线用户数、并发用户数、注册用户数" class="headerlink" title="在线用户数、并发用户数、注册用户数"></a>在线用户数、并发用户数、注册用户数</h3><pre><code>在线用户数：用户同一时间段的在线数量，一般为注册用户数的10%,包含并发用户和挂机用户。
+挂机用户：只是与服务器保持连接，没有对服务器有业务请求，因此对服务器不一定有压力，
+假设保持一个tcp连接消耗10k内存，4g的内存能保持40万的连接
+并发用户：一般为为在线用户的10-20%。
+比如系统的最高峰有500人在线，这500并不表示实际服务器承受的压力，因为服务器承受的压力还与
+具体的用户访问模式有关。例如，在这500个同时使用系统的用户中，若按某一时间点，在这个时间上，假设其中40%的用户在看系统公告（‘看’这个动作是不会对服务器产生任何负担的），20%的用户在填写表格（只有在提交的时刻才会向服务器发起请求），剩下的20%用户什么都没做，剩下20%的用户在不停地从一个页面切换到另一个
+</code></pre>
+</li>
+</ul>
 
     </div>
 
@@ -109,6 +244,6 @@
     color: #669bfc;
 }
 </style>
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hibiki.model.json"},"display":{"position":"left","width":400,"height":800},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hibiki.model.json"},"display":{"position":"left","width":400,"height":900},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 
 </html>
